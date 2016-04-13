@@ -121,6 +121,7 @@ namespace Engine
             background2.Dispose();
             blank2.Dispose();
             GraphicsObject2.Dispose();
+
         }
 
         public static Bitmap ResizeImage(Image image, int width, int height)
