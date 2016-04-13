@@ -71,6 +71,7 @@ namespace Engine
 
             pg.Value = 5;
 
+
             Background_ = new Background(WorldMap_, Images_);
             Background_.CreateBackgroundImages("test1", pg);
 
