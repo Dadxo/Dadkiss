@@ -57,6 +57,13 @@ namespace Pirate_Emblem
             p.Width = 200;
             p.Location = new Point(100, 150);
             this.Controls.Add(p);
+
+            Label l = new Label();
+            l.Text = "Creating a world will take a while haha";
+            l.BackColor = Color.White;
+            l.Location = new Point(100, 200);
+            l.Width = 200;
+            this.Controls.Add(l);
             
 
             GameEngine_ = new PEngine();
@@ -75,6 +82,8 @@ namespace Pirate_Emblem
 
         private void button_Click(object sender, EventArgs e)
         {
+            Button b = (Button)sender;
+            b.Enabled = false;
             GameEngine_.CreateWorld(p);
         }
         public void Start()
