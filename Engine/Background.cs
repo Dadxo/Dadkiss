@@ -23,10 +23,10 @@ namespace Engine
         public List<List<UInt16>> GrabSection(int x, int y)
         {
             List<List<UInt16>> tempSection = new List<List<ushort>>();
-            for (int i = (x*200); i < (x*200) + 200; i++)
+            for (int i = (x * 200); i < (x * 200) + 200; i++)
             {
                 List<UInt16> tempRow = new List<ushort>();
-                for (int j = (y*200); j < (y*200) + 200; j++)
+                for (int j = (y * 200); j < (y * 200) + 200; j++)
                 {
                     tempRow.Add(Map_[i][j]);
                 }
@@ -39,10 +39,12 @@ namespace Engine
         public void CreateBackgroundImages(string filename, ProgressBar p)
         {
             int x = 0; int y = 0;
-            
-            for (int i = 0; i < 4; i++)
+
+            double accValue = 0;
+
+            for (int i = 0; i < 15; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 15; j++)
                 {
                     List<List<UInt16>> tempSection = GrabSection(i, j);
 
@@ -66,22 +68,31 @@ namespace Engine
                         y++;
                     }
 
-                    background.Save("Images/World" + i.ToString() + "-" + j.ToString() +  ".png", ImageFormat.Png);
+                    background.Save("Images/World" + i.ToString() + "-" + j.ToString() + ".png", ImageFormat.Png);
                     background.Dispose();
                     blank.Dispose();
                     GraphicsObject.Dispose();
 
-                    p.Value += 1;
+                    accValue += 0.26;
+
+                    if (accValue > 1.0)
+                    {
+                        p.Value += 1;
+                        accValue -= 1.0;
+                    }
+
                 }
             }
-            
 
-            
+
+
             Image blank2 = Image.FromFile("Images/Blank.png");
             Image background2 = (Image)ResizeImage(blank2, 3000, 3000);
             Graphics GraphicsObject2 = Graphics.FromImage(background2);
 
             y = 0;
+
+            accValue = 0;
 
             foreach (List<UInt16> row in Map_)
             {
@@ -93,6 +104,15 @@ namespace Engine
 
                     GraphicsObject2.DrawImage(Images_[cell], x, y, r, units);
                     x++;
+
+                    accValue += 0.00000388888;
+
+                    if (accValue > 1.0)
+                    {
+                        if (p.Value < 100)
+                            p.Value += 1;
+                        accValue -= 1.0;
+                    }
                 }
                 y++;
             }
