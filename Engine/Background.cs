@@ -39,10 +39,12 @@ namespace Engine
         public void CreateBackgroundImages(string filename, ProgressBar p)
         {
             int x = 0; int y = 0;
+
+            double accValue = 0;
             
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 15; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 15; j++)
                 {
                     List<List<UInt16>> tempSection = GrabSection(i, j);
 
@@ -71,7 +73,14 @@ namespace Engine
                     blank.Dispose();
                     GraphicsObject.Dispose();
 
-                    p.Value += 1;
+                    accValue += 0.26;
+
+                    if (accValue > 1.0)
+                    {
+                        p.Value += 1;
+                        accValue -= 1.0;
+                    }
+
                 }
             }
             
@@ -83,6 +92,8 @@ namespace Engine
 
             y = 0;
 
+            accValue = 0;
+
             foreach (List<UInt16> row in Map_)
             {
                 x = 0;
@@ -93,6 +104,15 @@ namespace Engine
 
                     GraphicsObject2.DrawImage(Images_[cell], x, y, r, units);
                     x++;
+
+                    accValue += 0.00000388888;
+
+                    if (accValue > 1.0)
+                    {
+                        if (p.Value < 100)
+                            p.Value += 1;
+                        accValue -= 1.0;
+                    }
                 }
                 y++;
             }
